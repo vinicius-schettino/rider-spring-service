@@ -18,7 +18,4 @@ public class Driver {
     @Column(nullable = false)
     @NotNull
     private String vehicle;
-
-    @OneToMany(mappedBy = "rides")
-    private List<MockRide> rides;
 }
