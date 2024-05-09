@@ -30,13 +30,13 @@ public class DriverController {
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public Driver buscarDriverPorId(@PathVariable("id") Integer id){
-        return driverService.bsucarPorId(id)
+        return driverService.buscarPorId(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletarDriverPorId(@PathVariable("id")Integer id){
-        driverService.bsucarPorId(id)
+        driverService.buscarPorId(id)
                 .map(driver -> {
                     driverService.removerDriver(driver.getId());
                         return Void.TYPE;

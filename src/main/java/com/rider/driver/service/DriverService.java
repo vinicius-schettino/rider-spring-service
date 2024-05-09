@@ -19,7 +19,7 @@ public class DriverService {
     public List<Driver> listarDrivers(){
         return driverRepository.findAll();
     }
-    public Optional<Driver> bsucarPorId(Integer id){
+    public Optional<Driver> buscarPorId(Integer id){
         return driverRepository.findById(id);
     }
     public void removerDriver(Integer id){
