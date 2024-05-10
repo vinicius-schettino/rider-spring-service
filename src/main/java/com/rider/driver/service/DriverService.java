@@ -25,4 +25,7 @@ public class DriverService {
     public void removerDriver(Integer id){
         driverRepository.deleteById(id);
     }
+    public Driver atualizarDriver(Driver driver){
+        return driverRepository.save(driver);
+    }
 }

@@ -9,13 +9,12 @@ import java.util.List;
 @Entity
 public class Driver {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    @NotNull
-    private String vehicle;
+    @OneToOne(mappedBy = "driver")
+    private Vehicle vehicle;
 }

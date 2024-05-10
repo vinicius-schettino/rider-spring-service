@@ -43,5 +43,21 @@ public class DriverController {
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
 
+    @PutMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public Driver atualizarDriver(@PathVariable("id") Integer id, @RequestBody Driver driverAtualizado){
+        return driverService.buscarPorId(id)
+                .map(driver -> {
+                    if(driverAtualizado.getName() != null){
+                        driver.setName(driverAtualizado.getName());
+                    }
+                    if(driverAtualizado.getVehicle() != null){
+                        driver.setVehicle(driverAtualizado.getVehicle());
+                    }
+                    return driverService.atualizarDriver(driver);
+                }).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorisra não encontrado."));
+    }
 
 }
+
+
