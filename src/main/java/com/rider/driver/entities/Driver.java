@@ -14,7 +14,5 @@ public class Driver {
 
     @Column(nullable = false)
     private String name;
-
-    @OneToOne(mappedBy = "driver")
-    private Vehicle vehicle;
+    
 }
