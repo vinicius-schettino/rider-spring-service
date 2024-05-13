@@ -28,4 +28,8 @@ public class DriverService {
     public Driver atualizarDriver(Driver driver){
         return driverRepository.save(driver);
     }
+
+    public Driver atualizarStatus(Driver driver){
+        return driverRepository.save(driver);
+    }
 }

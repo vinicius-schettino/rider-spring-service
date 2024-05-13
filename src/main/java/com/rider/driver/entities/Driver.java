@@ -14,5 +14,8 @@ public class Driver {
 
     @Column(nullable = false)
     private String name;
+
+    @Enumerated(EnumType.STRING)
+    private DriverStatus status;
     
 }
