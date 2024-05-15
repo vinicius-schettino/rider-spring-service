@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class DriverService {
@@ -22,7 +23,7 @@ public class DriverService {
     public Optional<Driver> buscarPorId(Integer id){
         return driverRepository.findById(id);
     }
-    public void removerDriver(Integer id){
+    public void removerDriver(UUID id){
         driverRepository.deleteById(id);
     }
     public Driver atualizarDriver(Driver driver){
