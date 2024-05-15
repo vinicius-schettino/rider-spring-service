@@ -2,7 +2,6 @@ package com.rider.driver.controller;
 import com.rider.driver.entities.Driver;
 import com.rider.driver.entities.DriverStatus;
 import com.rider.driver.repositories.DriverRepository;
-import com.rider.driver.service.DriverService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -21,8 +20,6 @@ import java.util.UUID;
 @RequestMapping(value = "/driver", produces = {"application/json"})
 @Tag(name = "driver")
 public class DriverController {
-    @Autowired
-    private DriverService driverService; // APAGAR APOS O TERMINO DA REFATORAÇÃO ( APAGAR O DriverService tambem )
     @Autowired
     private DriverRepository driverRepository;
 
@@ -98,7 +95,7 @@ public class DriverController {
                     if (driverAtualizado.getName() != null) {
                         driver.setName(driverAtualizado.getName());
                     }
-                    return driverService.atualizarDriver(driver);
+                    return driverRepository.save(driver);
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
 
