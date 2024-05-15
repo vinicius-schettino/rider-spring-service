@@ -35,14 +35,26 @@ public class RideValidator implements Validator {
             errors.rejectValue("state", "State.empty", "State Precisa ser Informado");
         }
 
-        if (checkInputString(t.getBoardingLocation())) {
-            errors.rejectValue("Boarding Location", "BoardingLocation.empty", "BoardingLocation Precisa ser válido");
+        if (checkInputFloat(t.getBoardingLocationX())) {
+            errors.rejectValue("Boarding Location", "BoardingLocationX.empty", "BoardingLocationX Precisa ser válido");
         }
 
-        if (checkInputString(t.getDestinyLocation())) {
-            errors.rejectValue("Destiny Location", "DestinyLocation.empty", "DestinyLocation Precisa ser válido");
+        if (checkInputFloat(t.getBoardingLocationY())) {
+            errors.rejectValue("Boarding Location", "BoardingLocationY.empty", "BoardingLocationY Precisa ser válido");
         }
 
+        if (checkInputFloat(t.getDestinationLocationX())) {
+            errors.rejectValue("Destination Location", "DestinationLocationX.empty", "DestinyLocationX Precisa ser válido");
+        }
+
+        if (checkInputFloat(t.getDestinationLocationY())) {
+            errors.rejectValue("Destiny Location", "DestinationLocationY.empty", "DestinationLocationY Precisa ser válido");
+        }
+
+    }
+
+    private boolean checkInputFloat(Float input) {
+        return input == null || Math.abs(input) < 1e-6;
     }
 
     private boolean checkInputString(String input) {
