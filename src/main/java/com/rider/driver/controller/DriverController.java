@@ -2,14 +2,17 @@ package com.rider.driver.controller;
 import com.rider.driver.entities.Driver;
 import com.rider.driver.entities.DriverStatus;
 import com.rider.driver.repositories.DriverRepository;
+import com.rider.driver.validators.DriverValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
@@ -23,6 +26,13 @@ public class DriverController {
 
     @Autowired
     private DriverRepository driverRepository;
+    @Autowired
+    private DriverValidator driverValidator;
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(driverValidator);
+    }
 
     @Operation(summary = "Realiza o cadastro de novos drivers", method = "POST")
     @ApiResponses(value = {
@@ -33,7 +43,7 @@ public class DriverController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Driver salvarDriver(@RequestBody Driver driver) {
+    public Driver salvarDriver(@Valid @RequestBody Driver driver) {
         return driverRepository.save(driver);
     }
 
