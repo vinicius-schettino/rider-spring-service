@@ -14,13 +14,22 @@ public class ProfileValidator implements Validator {
 
     @Override
     public void validate(Object target, Errors errors) {
-        Profile profile = (Profile) target;
-        if (checkInputString(profile.getName())) {
+
+        Profile p = (Profile) target;
+        if (checkInputString(p.getName())) {
             errors.rejectValue("name", "name.empty", "Nome Precisa ser Informado");
         }
-        if (checkInputEmail(profile.getEmail())) {
+
+        if (checkInputEmail(p.getEmail())) {
             errors.rejectValue("email", "email.empty", "Email Precisa ser válido");
         }
+
     }
+
+
+    private boolean checkInputString(String input) {
+        return (input == null || input.trim().isEmpty());
+    }
+    private boolean checkInputEmail(String input) {return (input == null || input.trim().isEmpty() ) || !input.contains("@");}
 
 }

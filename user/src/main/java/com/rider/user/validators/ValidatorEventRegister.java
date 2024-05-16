@@ -1,17 +1,17 @@
 package com.rider.user.validators;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.core.event.ValidatingRepositoryEventListener;
 import org.springframework.validation.Validator;
 
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDate;
 
 @Configuration
 public class ValidatorEventRegister implements InitializingBean {
-
     @Autowired
     ValidatingRepositoryEventListener validatingRepositoryEventListener;
 
@@ -30,7 +30,6 @@ public class ValidatorEventRegister implements InitializingBean {
                                     .addValidator(p, entry.getValue()));
         }
     }
+
+
 }
-
-
-
