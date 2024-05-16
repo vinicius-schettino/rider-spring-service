@@ -1,4 +1,4 @@
-package com.rider.user.validators;
+package com.rider.user.config;
 
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +8,6 @@ import org.springframework.validation.Validator;
 
 import java.util.List;
 import java.util.Map;
-import java.time.LocalDate;
 
 @Configuration
 public class ValidatorEventRegister implements InitializingBean {
@@ -20,7 +19,7 @@ public class ValidatorEventRegister implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        List<String> events = List.of("beforeCreate");
+        List<String> events = List.of("beforeCreate", "beforeSave");
         for (Map.Entry<String, Validator> entry : validators.entrySet()) {
             events.stream()
                     .filter(p -> entry.getKey().startsWith(p))
