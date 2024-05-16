@@ -1,13 +1,19 @@
 package com.rider.payment.entities.invoice;
-
 import com.rider.payment.entities.payment.PaymentStatus;
+import com.rider.payment.entities.paymentMethods.PaymentMethod;
 import jakarta.persistence.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
 @Table
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
 public class Invoice {
     @Id
 
@@ -17,12 +23,14 @@ public class Invoice {
     @Column(nullable = false)
     private Double amount;
 
-    @Column(nullable = false)
-    private String paymentMethod;
+    @OneToMany(mappedBy = "invoices")
+    private PaymentMethod paymentMethod;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private PaymentStatus paymentStatus;
 
+    @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private InvoiceType invoiceType;
 
