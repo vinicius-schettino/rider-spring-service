@@ -1,4 +1,4 @@
-package com.rider.payment.repositories.PaymentMethod;
+package com.rider.payment.repositories;
 
 import com.rider.payment.entities.paymentMethods.PaymentMethod;
 import com.rider.payment.entities.paymentMethods.PaymentType;
