@@ -1,5 +1,6 @@
-package com.rider.payment.entities.invoices;
+package com.rider.payment.entities.invoice;
 
+import com.rider.payment.entities.payment.PaymentStatus;
 import jakarta.persistence.*;
 
 import java.util.Date;
@@ -7,31 +8,30 @@ import java.util.UUID;
 
 @Entity
 @Table
-
-public class Invoices {
+public class Invoice {
     @Id
 
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID Id;
+    private UUID id;
 
     @Column(nullable = false)
-    private Double Amount;
+    private Double amount;
 
     @Column(nullable = false)
-    private String PaymentMethod;
+    private String paymentMethod;
 
     @Column(nullable = false)
-    private String PaymentStatus;
+    private PaymentStatus paymentStatus;
 
     @Column(nullable = false)
-    private String InvoiceType;
+    private InvoiceType invoiceType;
 
     @Column(nullable = false)
-    private String UserName;
+    private String userName;
 
     @Column(nullable = false)
-    private String DriverName;
+    private String driverName;
 
     @Column(nullable = false)
-    private Date RideDate;
+    private Date rideDate;
 }

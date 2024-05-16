@@ -1,4 +1,4 @@
-package com.rider.payment.entities.PaymentMethod;
+package com.rider.payment.entities.paymentMethods;
 
 import jakarta.persistence.*;
 
@@ -15,7 +15,7 @@ public class PaymentMethod {
     private PaymentType paymentType;
 
     @Column(nullable = false)
-    private String userName;
+    private String name;
 
     // Getters and setters
     public UUID getId() {
@@ -34,11 +34,11 @@ public class PaymentMethod {
         this.paymentType = paymentType;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getName() {
+        return name;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setName(String name) {
+        this.name = name;
     }
 }

@@ -15,8 +15,10 @@ public class Payment {
     @Column
     private Double amount;
 
+    @Column
     private Date paymentDate;
 
+    @Column
     private PaymentStatus paymentStatus;
 
     public UUID getId() {
