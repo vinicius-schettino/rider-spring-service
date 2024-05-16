@@ -13,17 +13,16 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class Invoice {
     @Id
-
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
     private Double amount;
 
-    @OneToMany(mappedBy = "invoices")
+    @ManyToOne
+    @JoinColumn(name = "paymentMethod_id")
     private PaymentMethod paymentMethod;
 
     @Enumerated(EnumType.ORDINAL)

@@ -1,4 +1,4 @@
-package com.rider.payment.entities.creditcard.repository;
+package com.rider.payment.repositories;
 
 import com.rider.payment.entities.creditcard.Creditcard;
 import org.springframework.data.jpa.repository.JpaRepository;

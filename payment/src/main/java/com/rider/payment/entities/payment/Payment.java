@@ -1,13 +1,21 @@
 package com.rider.payment.entities.payment;
 
+import com.rider.payment.entities.paymentMethods.PaymentMethod;
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
 @Table
+@Data
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Payment {
+    @Setter
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -15,41 +23,16 @@ public class Payment {
     @Column
     private Double amount;
 
+    @ManyToOne
+    @JoinColumn(name = "paymentMethod_id")
+    private PaymentMethod paymentMethod;
+
     @Column
     private Date paymentDate;
 
     @Column
     private PaymentStatus paymentStatus;
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public Double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(Double amount) {
-        this.amount = amount;
-    }
-
-    public Date getPaymentDate() {
-        return paymentDate;
-    }
-
-    public void setPaymentDate(Date paymentDate) {
-        this.paymentDate = paymentDate;
-    }
-
-    public PaymentStatus getPaymentStatus() {
-        return paymentStatus;
-    }
-
-    public void setPaymentStatus(PaymentStatus paymentStatus) {
-        this.paymentStatus = paymentStatus;
+    public Payment(Double amount, PaymentMethod paymentMethod, PaymentStatus paymentStatus, Date date) {
     }
 }
