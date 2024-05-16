@@ -3,3 +3,8 @@ INSERT INTO PUBLIC.INVOICE (id, amount, paymentMethod, paymentStatus, invoiceTyp
 INSERT INTO PUBLIC.INVOICE (id, amount, paymentMethod, paymentStatus, invoiceType, userName, driverName, rideDate) VALUES (159, '750,50', null, '1', '1', 'ronaldo7', 'CRISTIANO RONALDO', 2023-06-15);
 INSERT INTO PUBLIC.INVOICE (id, amount, paymentMethod, paymentStatus, invoiceType, userName, driverName, rideDate) VALUES (160, '560,00', null, '3', '0', 'lewandowski9', 'ROBERT LEWANDOWSKI', 2023-07-02);
 INSERT INTO PUBLIC.INVOICE (id, amount, paymentMethod, paymentStatus, invoiceType, userName, driverName, rideDate) VALUES (161, '1300,00', null, '0', '1', 'mbappe7', 'KYLIAN MBAPPE', 2023-08-09);
+INSERT INTO PUBLIC.CREDITCARD (ID, NAME, NUMBER, HOLDER, VALIDATIONDATE, CODE) VALUES (130, 'CAIOZNN', '1225532342473254', 'Caio Cesar', '11/30', '302');
+INSERT INTO PUBLIC.CREDITCARD (ID, NAME, NUMBER, HOLDER, VALIDATIONDATE, CODE) VALUES (131, 'Raphael Ribeiro', '3245562342473254', 'Raphael Ribeiro I V', '08/31', '352');
+INSERT INTO PUBLIC.CREDITCARD (ID, NAME, NUMBER, HOLDER, VALIDATIONDATE, CODE) VALUES (132, 'Wamberg Nascimento', '8245562342446254', 'Wamberg Geraldo do Nascimento', '06/33', '367');
+INSERT INTO PUBLIC.CREDITCARD (ID, NAME, NUMBER, HOLDER, VALIDATIONDATE, CODE) VALUES (133, 'Maria Silva', '4024007197898145', 'Maria Oliveira Silva', '09/27', '123');
+INSERT INTO PUBLIC.CREDITCARD (ID, NAME, NUMBER, HOLDER, VALIDATIONDATE, CODE) VALUES (134, 'João Santos', '5534338767531227', 'João Ferreira Santos', '04/28', '789');
