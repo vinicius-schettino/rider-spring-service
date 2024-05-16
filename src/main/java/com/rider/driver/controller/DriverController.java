@@ -1,26 +1,29 @@
 package com.rider.driver.controller;
-
 import com.rider.driver.entities.Driver;
 import com.rider.driver.entities.DriverStatus;
-import com.rider.driver.service.DriverService;
+import com.rider.driver.repositories.DriverRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/driver", produces = {"application/json"})
 @Tag(name = "driver")
 public class DriverController {
+
     @Autowired
-    private DriverService driverService;
+    private DriverRepository driverRepository;
+
     @Operation(summary = "Realiza o cadastro de novos drivers", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Driver criado com sucesso"),
@@ -31,7 +34,7 @@ public class DriverController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Driver salvarDriver(@RequestBody Driver driver) {
-        return driverService.salvar(driver);
+        return driverRepository.save(driver);
     }
 
     @Operation(summary = "Lista todos os drivers existentes no banco de dados", method = "GET")
@@ -44,7 +47,7 @@ public class DriverController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<Driver> listarDrivers() {
-        return driverService.listarDrivers();
+        return driverRepository.findAll();
     }
 
     @Operation(summary = "Busca um driver pelo seu id", method = "GET")
@@ -56,9 +59,8 @@ public class DriverController {
     })
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Driver buscarDriverPorId(@PathVariable("id") Integer id) {
-        return driverService.buscarPorId(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
+    public Optional<Driver> buscarDriverPorId(@PathVariable("id") UUID id) {
+        return driverRepository.findById(id);
     }
 
     @Operation(summary = "Deletar um driver usando seu id", method = "DELETE")
@@ -70,10 +72,11 @@ public class DriverController {
     })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deletarDriverPorId(@PathVariable("id") Integer id) {
-        driverService.buscarPorId(id)
+    @Transactional
+    public void deletarDriverPorId(@PathVariable("id") UUID id) {
+        driverRepository.findById(id)
                 .map(driver -> {
-                    driverService.removerDriver(driver.getId());
+                    driverRepository.deleteById(driver.getId ());
                     return Void.TYPE;
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
@@ -87,13 +90,13 @@ public class DriverController {
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Driver atualizarDriver(@PathVariable("id") Integer id, @RequestBody Driver driverAtualizado) {
-        return driverService.buscarPorId(id)
+    public Driver atualizarDriver(@PathVariable("id") UUID id, @RequestBody Driver driverAtualizado) {
+        return driverRepository.findById(id)
                 .map(driver -> {
                     if (driverAtualizado.getName() != null) {
                         driver.setName(driverAtualizado.getName());
                     }
-                    return driverService.atualizarDriver(driver);
+                    return driverRepository.save(driver);
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
 
@@ -104,15 +107,15 @@ public class DriverController {
             @ApiResponse(responseCode = "404", description = "Driver não encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
-    @PostMapping("/start/{id}") // pq não usar um put? - usar id nesse metodo é o correto mesmo? se não, como fazer? - como vamos ter varios caminhos diferentes para mudar para o mesmo estado não seria melhor deixar a maior parte da logica no service?
+    @PostMapping("/start/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Driver makeAvailableFromOffline(@PathVariable("id") Integer id) {
-        return driverService.buscarPorId(id)
+    public Driver makeAvailableFromOffline(@PathVariable("id") UUID id) {
+        return driverRepository.findById(id)
                 .map(driver -> {
                     if (driver.getStatus() == DriverStatus.OFFLINE) {
                         driver.setStatus(DriverStatus.AVAILABLE);
-                    } // LEMBRAR DE LANÇAR AS EXCEÇÕES AQUI
-                    return driverService.atualizarDriver(driver);
+                    }
+                    return driverRepository.save(driver);
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
 
@@ -125,13 +128,13 @@ public class DriverController {
     })
     @PostMapping("/stop/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Driver makeOfflineFromAvailable(@PathVariable Integer id) {
-        return driverService.buscarPorId(id)
+    public Driver makeOfflineFromAvailable(@PathVariable UUID id) {
+        return driverRepository.findById(id)
                 .map(driver -> {
                     if (driver.getStatus() == DriverStatus.AVAILABLE) {
                         driver.setStatus(DriverStatus.OFFLINE);
                     }
-                    return driverService.salvar(driver);
+                    return driverRepository.save(driver);
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
 
@@ -144,16 +147,15 @@ public class DriverController {
     })
     @PostMapping("/accept/{id}") // Eu deveria lançar uma exception caso o usuario tente ir de busy direto para offline e vice versa? 412
     @ResponseStatus(HttpStatus.OK)
-    public Driver makeBusyFromAvailable(@PathVariable Integer id) {
-        return driverService.buscarPorId(id)
+    public Driver makeBusyFromAvailable(@PathVariable UUID id) {
+        return driverRepository.findById(id)
                 .map(driver -> {
                     if (driver.getStatus() == DriverStatus.AVAILABLE){
                         driver.setStatus(DriverStatus.BUSY);
                     }
-                    return driverService.salvar(driver);
+                    return driverRepository.save(driver);
                 }).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
-
     @Operation(summary = "Atualizar o status de um driver de Busy para Available pelo seu id", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Status do driver atualizado com sucesso"),
@@ -163,15 +165,13 @@ public class DriverController {
     })
     @PostMapping("/finish/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Driver makeAvailableFromBusy(@PathVariable Integer id){
-        return driverService.buscarPorId(id)
+    public Driver makeAvailableFromBusy(@PathVariable UUID id){
+        return driverRepository.findById(id)
                 .map(driver -> {
                     if (driver.getStatus() == DriverStatus.BUSY){
                         driver.setStatus(DriverStatus.AVAILABLE);
                     }
-                    return driverService.salvar(driver);
+                    return driverRepository.save(driver);
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado"));
     }
 }
-// Eu deveria ter um statusRepository, um statusController e um statusService ou posso deixar essas logicas dentro dos pacotes do Driver msm?
-
