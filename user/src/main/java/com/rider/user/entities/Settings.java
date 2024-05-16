@@ -15,6 +15,9 @@ public class Settings {
     private Notification notification;
     private Ads ads;
 
+    @OneToOne
+    private Profile profile;
+
     public UUID getId() {
         return id;
     }

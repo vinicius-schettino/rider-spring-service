@@ -2,6 +2,7 @@ package com.rider.user.entities;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 import java.util.stream.Stream;
 
@@ -18,6 +19,12 @@ public class Profile {
     private String email;
     @Column(nullable = false)
     private Date date_of_birth;
+
+    @OneToMany(mappedBy = "profile")
+    private List<Address> addresses;
+
+    @OneToOne
+    private Settings settings;
 
     public UUID getId() {
         return this.id;
@@ -47,7 +54,7 @@ public class Profile {
         this.email = email;
     }
 
-    public void setNumber(Date date_of_birth) {
+    public void setDate_of_birth(Date date_of_birth) {
         this.date_of_birth =  date_of_birth;
     }
 

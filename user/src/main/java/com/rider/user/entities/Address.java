@@ -22,6 +22,9 @@ public class Address {
     @Column(nullable = false)
     private Integer cep;
 
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Profile profile;
 
     public UUID getId() {
         return this.id;
