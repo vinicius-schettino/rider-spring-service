@@ -2,16 +2,14 @@ package com.rider.ride.entities;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Entity
 @Table
-@SequenceGenerator(name="seq_generator", sequenceName = "seq_ride_id", initialValue = 21, allocationSize=1)
-
 public class Ride {
     @Id
-    @Column(name = "id", nullable = false, precision = 3, scale = 0)
-    @GeneratedValue(generator = "seq_generator", strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @Column(name = "driver_id", nullable = false)
     private Integer driver;
@@ -37,7 +35,7 @@ public class Ride {
     @Column(nullable = false)
     private Float destinationLocation_Y;
 
-    public Integer getId(){
+    public UUID getId(){
         return this.id;
     }
 
