@@ -26,16 +26,16 @@ public class Ride {
     private String state;
 
     @Column(nullable = false)
-    private Float boardingLocationX;
+    private Float boardingLocation_X;
 
     @Column(nullable = false)
-    private Float boardingLocationY;
+    private Float boardingLocation_Y;
 
     @Column(nullable = false)
-    private Float destinationLocationX;
+    private Float destinationLocation_X;
 
     @Column(nullable = false)
-    private Float destinationLocationY;
+    private Float destinationLocation_Y;
 
     public Integer getId(){
         return this.id;
@@ -57,20 +57,20 @@ public class Ride {
         return this.state;
     }
 
-    public Float getBoardingLocationX(){
-        return this.boardingLocationX;
+    public Float getBoardingLocation_X(){
+        return this.boardingLocation_X;
     }
 
-    public Float getBoardingLocationY(){
-        return this.boardingLocationY;
+    public Float getBoardingLocation_Y(){
+        return this.boardingLocation_Y;
     }
 
-    public Float getDestinationLocationX(){
-        return this.destinationLocationX;
+    public Float getDestinationLocation_X(){
+        return this.destinationLocation_X;
     }
 
-    public Float getDestinationLocationY(){
-        return this.destinationLocationY;
+    public Float getDestinationLocation_Y(){
+        return this.destinationLocation_Y;
     }
 
     public void setDriver(){
@@ -89,19 +89,19 @@ public class Ride {
         this.state = state;
     }
 
-    public void setBoardingLocationX(){
-        this.boardingLocationX = boardingLocationX;
+    public void setBoardingLocation_X(){
+        this.boardingLocation_X = boardingLocation_X;
     }
 
-    public void setBoardingLocationY(){
-        this.boardingLocationY = boardingLocationY;
+    public void setBoardingLocation_Y(){
+        this.boardingLocation_Y = boardingLocation_Y;
     }
 
-    public void setDestinationLocationX(){
-        this.destinationLocationX = destinationLocationX;
+    public void setDestinationLocation_X(){
+        this.destinationLocation_X = destinationLocation_X;
     }
 
-    public void setDestinationLocationY(){
-        this.destinationLocationY = destinationLocationY;
+    public void setDestinationLocation_Y(){
+        this.destinationLocation_Y = destinationLocation_Y;
     }
 }
