@@ -47,7 +47,7 @@ O objetivo dessa primeira parte é ter uma primeira versão funcional de cada se
   - [x] org.springframework.boot:spring-boot-starter-data-rest
   - [x] org.springframework.boot:spring-boot-starter-data-jpa
   - [x] org.springframework.data:spring-data-rest-hal-explorer
-- [ ] [Habilitar o endpoint OpenAPI](https://www.baeldung.com/spring-rest-openapi-documentation)
-- [ ] Criar as entidades e repositórios com os endpoints de CRUD e validação básica
-- [ ] Criar SQL com dados de exemplo/teste [(como fizemos aqui](https://github.com/vinicius-schettino/travel-api/blob/main/src/main/resources/data.sql)) (~20 registros ao todo, pode usar ChatGPT) 
-- [ ] Criar um ou mais Pull Requests com as modificações e marcar @vschettino para revisão
+- [x] [Habilitar o endpoint OpenAPI](https://www.baeldung.com/spring-rest-openapi-documentation)
+- [x] Criar as entidades e repositórios com os endpoints de CRUD e validação básica
+- [x] Criar SQL com dados de exemplo/teste [(como fizemos aqui](https://github.com/vinicius-schettino/travel-api/blob/main/src/main/resources/data.sql)) (~20 registros ao todo, pode usar ChatGPT) 
+- [x] Criar um ou mais Pull Requests com as modificações e marcar @vschettino para revisão

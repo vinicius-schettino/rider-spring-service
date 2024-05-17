@@ -21,17 +21,15 @@ public class AddressValidator implements Validator {
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "neighborhood","campo.obrigatorio", "O campo bairro é obrigatório");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "street", "campo.obrigatorio", "O campo rua é obrigatório");
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "number", "campo.obrigatorio", "O campo número é obrigatório");
+        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "cep", "campo.obrigatorio", "O campo cep é obrigatório");
 
-        if (address.getCEP() == null) {
-            errors.rejectValue("cep", "campo.obrigatorio", "O CEP é obrigatório");
-        } else if (!isValidCep(address.getCEP())) {
+
+        if (!isValidCep(address.getCEP())) {
             errors.rejectValue("cep", "cep.invalido", "CEP inválido");
         }
     }
 
-    private boolean isValidCep(Integer cep) {
-        int minCep = 1000000;
-        int maxCep = 99999999;
-        return cep >= minCep && cep <=maxCep;
+    private boolean isValidCep(String cep) {
+        return cep != null && cep.matches("\\d{5}-\\d{3}");
     }
 }

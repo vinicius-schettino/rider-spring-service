@@ -19,7 +19,7 @@ public class ProfileValidator implements Validator {
 
         Profile profile = (Profile) target;
 
-        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "campo.obrigatorio", "Nome Precisa ser Informado");
+//        ValidationUtils.rejectIfEmptyOrWhitespace(errors, "name", "campo.obrigatorio", "Nome Precisa ser Informado");
 
 
         if (checkInputEmail(profile.getEmail())) {

@@ -9,10 +9,15 @@ public class Settings {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(nullable = false)
     private UUID id;
+    @Column(nullable = false)
     private Language language;
-    private AppAppearance appAppearance;
+    @Column(nullable = false)
+    private AppAppearance appappearance;
+    @Column(nullable = false)
     private Notification notification;
+    @Column(nullable = false)
     private Ads ads;
 
     @OneToOne
@@ -27,7 +32,7 @@ public class Settings {
     }
 
     public AppAppearance getAppAppearance() {
-        return appAppearance;
+        return appappearance;
     }
 
     public Notification getNotification() {
@@ -46,8 +51,8 @@ public class Settings {
         this.language = language;
     }
 
-    public void setAppAppearance(AppAppearance appAppearance) {
-        this.appAppearance = appAppearance;
+    public void setAppAppearance(AppAppearance appappearance) {
+        this.appappearance = appappearance;
     }
 
     public void setNotification(Notification notification) {
@@ -59,11 +64,11 @@ public class Settings {
     }
 
     public enum Language {
-        PORTUGUESE, ENGLISH, CHINESE, SPANISH
+        Portuguese, English, Chinese, Spanish
     }
 
     public enum AppAppearance {
-        DARK, LIGHT
+        Dark, Light
     }
 
     public enum Notification {

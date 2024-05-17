@@ -1,5 +1,7 @@
 package com.rider.user.entities;
 import jakarta.persistence.*;
+import org.aspectj.weaver.ast.Var;
+import org.hibernate.type.descriptor.jdbc.VarcharJdbcType;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,7 +22,7 @@ public class Address {
     @Column(nullable = false)
     private Integer number;
     @Column(nullable = false)
-    private Integer cep;
+    private String cep;
 
     @ManyToOne
     @JoinColumn(nullable = false)
@@ -46,7 +48,7 @@ public class Address {
         return this.street;
     }
 
-    public Integer getCEP() {
+    public String getCEP() {
         return this.cep;
     }
 
@@ -71,7 +73,7 @@ public class Address {
         this.street = street;
     }
 
-    public void setCep(Integer cep) {
+    public void setCep(String cep) {
         this.cep = cep;
     }
 }

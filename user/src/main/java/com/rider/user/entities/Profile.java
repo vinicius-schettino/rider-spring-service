@@ -23,7 +23,7 @@ public class Profile {
     @OneToMany(mappedBy = "profile")
     private List<Address> addresses;
 
-    @OneToOne
+    @OneToOne(mappedBy = "profile")
     private Settings settings;
 
     public UUID getId() {
