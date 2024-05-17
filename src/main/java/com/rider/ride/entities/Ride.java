@@ -25,11 +25,17 @@ public class Ride {
     @Column(nullable = false)
     private String state;
 
-    @Column(name = "boarding_location", nullable = false)
-    private String boardingLocation;
+    @Column(nullable = false)
+    private Float boardingLocationX;
 
-    @Column(name = "destiny_location", nullable = false)
-    private String destinyLocation;
+    @Column(nullable = false)
+    private Float boardingLocationY;
+
+    @Column(nullable = false)
+    private Float destinationLocationX;
+
+    @Column(nullable = false)
+    private Float destinationLocationY;
 
     public Integer getId(){
         return this.id;
@@ -51,12 +57,20 @@ public class Ride {
         return this.state;
     }
 
-    public String getBoardingLocation(){
-        return this.boardingLocation;
+    public Float getBoardingLocationX(){
+        return this.boardingLocationX;
     }
 
-    public String getDestinyLocation(){
-        return this.destinyLocation;
+    public Float getBoardingLocationY(){
+        return this.boardingLocationY;
+    }
+
+    public Float getDestinationLocationX(){
+        return this.destinationLocationX;
+    }
+
+    public Float getDestinationLocationY(){
+        return this.destinationLocationY;
     }
 
     public void setDriver(){
@@ -75,11 +89,19 @@ public class Ride {
         this.state = state;
     }
 
-    public void setBoardingLocation(){
-        this.boardingLocation = boardingLocation;
+    public void setBoardingLocationX(){
+        this.boardingLocationX = boardingLocationX;
     }
 
-    public void setDestinyLocation(){
-        this.destinyLocation = destinyLocation;
+    public void setBoardingLocationY(){
+        this.boardingLocationY = boardingLocationY;
+    }
+
+    public void setDestinationLocationX(){
+        this.destinationLocationX = destinationLocationX;
+    }
+
+    public void setDestinationLocationY(){
+        this.destinationLocationY = destinationLocationY;
     }
 }
