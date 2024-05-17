@@ -35,20 +35,20 @@ public class RideValidator implements Validator {
             errors.rejectValue("state", "State.empty", "State Precisa ser Informado");
         }
 
-        if (checkInputFloat(t.getBoardingLocationX())) {
-            errors.rejectValue("Boarding Location", "BoardingLocationX.empty", "BoardingLocationX Precisa ser válido");
+        if (checkInputFloat(t.getBoardingLocation_X())) {
+            errors.rejectValue("Boarding Location", "BoardingLocation_X.empty", "BoardingLocation_X Precisa ser válido");
         }
 
-        if (checkInputFloat(t.getBoardingLocationY())) {
-            errors.rejectValue("Boarding Location", "BoardingLocationY.empty", "BoardingLocationY Precisa ser válido");
+        if (checkInputFloat(t.getBoardingLocation_Y())) {
+            errors.rejectValue("Boarding Location", "BoardingLocation_Y.empty", "BoardingLocation_Y Precisa ser válido");
         }
 
-        if (checkInputFloat(t.getDestinationLocationX())) {
-            errors.rejectValue("Destination Location", "DestinationLocationX.empty", "DestinyLocationX Precisa ser válido");
+        if (checkInputFloat(t.getDestinationLocation_X())) {
+            errors.rejectValue("Destination Location", "DestinationLocation_X.empty", "DestinyLocation_X Precisa ser válido");
         }
 
-        if (checkInputFloat(t.getDestinationLocationY())) {
-            errors.rejectValue("Destiny Location", "DestinationLocationY.empty", "DestinationLocationY Precisa ser válido");
+        if (checkInputFloat(t.getDestinationLocation_Y())) {
+            errors.rejectValue("Destiny Location", "DestinationLocation_Y.empty", "DestinationLocation_Y Precisa ser válido");
         }
 
     }
