@@ -86,7 +86,7 @@ public class DriverController {
     public void deletarDriverPorId(@PathVariable("id") UUID id) {
         driverRepository.findById(id)
                 .map(driver -> {
-                    driverRepository.deleteById(driver.getId ());
+                    driverRepository.deleteById(driver.getId());
                     return Void.TYPE;
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
