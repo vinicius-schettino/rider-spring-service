@@ -1,4 +1,5 @@
 package com.rider.driver.controller;
+import com.rider.driver.dtos.DriverDto;
 import com.rider.driver.entities.Driver;
 import com.rider.driver.entities.DriverStatus;
 import com.rider.driver.repositories.DriverRepository;
@@ -15,6 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -56,8 +59,15 @@ public class DriverController {
     })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Driver> listarDrivers() {
-        return driverRepository.findAll();
+    public List<DriverDto> listarDrivers() {
+        List<Driver> drivers = driverRepository.findAll();
+        List<DriverDto> listDriversDto = new ArrayList<>();
+
+        for (Driver driver : drivers) {
+            DriverDto driverDto = new DriverDto(driver);
+            listDriversDto.add(driverDto);
+        }
+        return listDriversDto;
     }
 
     @Operation(summary = "Busca um driver pelo seu id", method = "GET")
@@ -69,8 +79,11 @@ public class DriverController {
     })
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Optional<Driver> buscarDriverPorId(@PathVariable("id") UUID id) {
-        return driverRepository.findById(id);
+    public DriverDto buscarDriverPorId(@PathVariable("id") UUID id) {
+        Driver driver = driverRepository.findById(id)
+                .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        DriverDto driverDto = new DriverDto(driver);
+        return driverDto;
     }
 
     @Operation(summary = "Deletar um driver usando seu id", method = "DELETE")
@@ -80,6 +93,7 @@ public class DriverController {
             @ApiResponse(responseCode = "404", description = "Driver não encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
