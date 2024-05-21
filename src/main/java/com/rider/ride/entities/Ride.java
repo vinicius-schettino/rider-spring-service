@@ -2,6 +2,7 @@ package com.rider.ride.entities;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,8 +21,9 @@ public class Ride {
     @Column(nullable = false)
     private BigDecimal price;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String state;
+    private RideState state = RideState.WAITING_DRIVER;
 
     @Column(nullable = false)
     private Float boardingLocation_X;
@@ -34,6 +36,9 @@ public class Ride {
 
     @Column(nullable = false)
     private Float destinationLocation_Y;
+
+    @OneToMany(mappedBy = "ride")
+    private List<Review> review;
 
     public UUID getId(){
         return this.id;
@@ -51,7 +56,7 @@ public class Ride {
         return this.price;
     }
 
-    public String getState(){
+    public RideState getState(){
         return this.state;
     }
 
@@ -69,6 +74,10 @@ public class Ride {
 
     public Float getDestinationLocation_Y(){
         return this.destinationLocation_Y;
+    }
+
+    public List<Review> getReview(){
+        return this.review;
     }
 
     public void setDriver(){
@@ -101,5 +110,9 @@ public class Ride {
 
     public void setDestinationLocation_Y(){
         this.destinationLocation_Y = destinationLocation_Y;
+    }
+
+    public void setReview(){
+        this.review = review;
     }
 }

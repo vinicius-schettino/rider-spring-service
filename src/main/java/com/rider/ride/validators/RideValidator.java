@@ -31,10 +31,6 @@ public class RideValidator implements Validator {
             errors.rejectValue("price", "price.empty", "Price Precisa ser Informado");
         }
 
-        if (checkInputString(t.getState())) {
-            errors.rejectValue("state", "State.empty", "State Precisa ser Informado");
-        }
-
         if (checkInputFloat(t.getBoardingLocation_X())) {
             errors.rejectValue("Boarding Location", "BoardingLocation_X.empty", "BoardingLocation_X Precisa ser válido");
         }
