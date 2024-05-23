@@ -4,12 +4,13 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
+import org.springframework.hateoas.RepresentationModel;
 
 import java.util.UUID;
 
 @Data
 @Entity
-public class Driver {
+public class Driver extends RepresentationModel<Driver> {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;

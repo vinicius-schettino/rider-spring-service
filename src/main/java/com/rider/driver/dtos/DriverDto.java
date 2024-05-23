@@ -6,12 +6,13 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.hateoas.RepresentationModel;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class DriverDto {
+public class DriverDto extends RepresentationModel<DriverDto> {
 
     private String name;
     @Id
