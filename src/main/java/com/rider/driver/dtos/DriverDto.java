@@ -17,17 +17,17 @@ public class DriverDto {
     @Id
     private String email;
     private String status;
-    private String vehcileMake;
+    private String vehicleMake;
     private String vehicleModel;
-    private String vehicleplate;
+    private String vehiclePlate;
 
     public DriverDto(Driver driver){
         name = driver.getName();
         email = driver.getEmail();
         status = driver.getStatus().toString();
-        vehcileMake = driver.getVehicle().getMake();
+        vehicleMake = driver.getVehicle().getMake();
         vehicleModel = driver.getVehicle().getModel();
-        vehicleplate = driver.getVehicle().getPlate();
+        vehiclePlate = driver.getVehicle().getPlate();
     }
 }
 

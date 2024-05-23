@@ -20,6 +20,11 @@ public class Driver {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column
+    private double latitude;
+
+    @Column
+    private double longitude;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
