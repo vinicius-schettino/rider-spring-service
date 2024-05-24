@@ -16,10 +16,11 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping(value = "/driver", produces = {"application/json"})
@@ -49,7 +50,6 @@ public class DriverController {
         driverRepository.save(driver);
         return new DriverDto(driver);
     }
-
     @Operation(summary = "Lista todos os drivers existentes no banco de dados", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Drivers listados com sucesso"),
@@ -65,11 +65,11 @@ public class DriverController {
 
         for (Driver driver : drivers) {
             DriverDto driverDto = new DriverDto(driver);
+            driverDto.add(linkTo(methodOn(DriverController.class).buscarDriverPorId(driver.getId())).withSelfRel());
             listDriversDto.add(driverDto);
         }
         return listDriversDto;
     }
-
     @Operation(summary = "Busca um driver pelo seu id", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Driver encontrado"),
@@ -83,9 +83,20 @@ public class DriverController {
         Driver driver = driverRepository.findById(id)
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
         DriverDto driverDto = new DriverDto(driver);
+        driverDto.add(linkTo(methodOn(DriverController.class).atualizarDriver(driver.getId(),driver)).withSelfRel());
+        if (driver.getStatus() == DriverStatus.OFFLINE){
+            driverDto.add(linkTo(methodOn(DriverController.class).makeAvailableFromOffline(driver.getId())).withRel("Start"));
+        }
+        if (driver.getStatus() == DriverStatus.AVAILABLE) {
+            driver.add(linkTo(methodOn(DriverController.class).makeOfflineFromAvailable(driver.getId())).withRel("Stop"));
+            driver.add(linkTo(methodOn(DriverController.class).makeBusyFromAvailable(driver.getId())).withRel("Accept"));
+        }
+        if (driver.getStatus() == DriverStatus.BUSY) {
+            driver.add(linkTo(methodOn(DriverController.class).makeAvailableFromBusy(driver.getId())).withRel("Finish"));
+        }
+
         return driverDto;
     }
-
     @Operation(summary = "Deletar um driver usando seu id", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Driver apagado com sucesso"),
@@ -93,7 +104,6 @@ public class DriverController {
             @ApiResponse(responseCode = "404", description = "Driver não encontrado"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
-
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional
@@ -104,7 +114,6 @@ public class DriverController {
                     return Void.TYPE;
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
-
     @Operation(summary = "Atulizar informações do driver pelo seu id", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Driver atualizado com sucesso"),
@@ -114,7 +123,8 @@ public class DriverController {
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public DriverDto atualizarDriver(@PathVariable("id") UUID id, @RequestBody Driver driverAtualizado) {
+    @Transactional
+    public DriverDto atualizarDriver(@PathVariable("id") UUID id, @Valid @RequestBody Driver driverAtualizado) {
         return driverRepository.findById(id)
                 .map(driver -> {
                     if (driverAtualizado.getName() != null) {
@@ -124,7 +134,6 @@ public class DriverController {
                     return new DriverDto(driver);
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
-
     @Operation(summary = "Atualizar o status de um driver de Offline para Available pelo seu id", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Status do driver atualizado com sucesso"),
@@ -134,6 +143,7 @@ public class DriverController {
     })
     @PostMapping("/start/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @Transactional
     public DriverDto makeAvailableFromOffline(@PathVariable("id") UUID id) {
         return driverRepository.findById(id)
                 .map(driver -> {
@@ -141,10 +151,13 @@ public class DriverController {
                         driver.setStatus(DriverStatus.AVAILABLE);
                     }
                     driverRepository.save(driver);
-                    return new DriverDto(driver);
+                    DriverDto driverDto;
+                    driverDto = new DriverDto(driver);
+                    driverDto.add(linkTo(methodOn(DriverController.class).makeOfflineFromAvailable(driver.getId())).withRel("Stop"));
+                    driverDto.add(linkTo(methodOn(DriverController.class).makeBusyFromAvailable(driver.getId())).withRel("Accept"));
+                    return driverDto;
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
-
     @Operation(summary = "Atualizar o status de um driver de Available para Offline pelo seu id", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Status do driver atualizado com sucesso"),
@@ -154,6 +167,7 @@ public class DriverController {
     })
     @PostMapping("/stop/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @Transactional
     public DriverDto makeOfflineFromAvailable(@PathVariable UUID id) {
         return driverRepository.findById(id)
                 .map(driver -> {
@@ -161,10 +175,12 @@ public class DriverController {
                         driver.setStatus(DriverStatus.OFFLINE);
                     }
                     driverRepository.save(driver);
-                    return new DriverDto(driver);
+                    DriverDto driverDto;
+                    driverDto = new DriverDto(driver);
+                    driverDto.add(linkTo(methodOn(DriverController.class).makeAvailableFromOffline(driver.getId())).withRel("Start"));
+                    return driverDto;
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
-
     @Operation(summary = "Atualizar o status de um driver de Available para Busy pelo seu id", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Status do driver atualizado com sucesso"),
@@ -174,6 +190,7 @@ public class DriverController {
     })
     @PostMapping("/accept/{id}") // Eu deveria lançar uma exception caso o usuario tente ir de busy direto para offline e vice versa? 412
     @ResponseStatus(HttpStatus.OK)
+    @Transactional
     public DriverDto makeBusyFromAvailable(@PathVariable UUID id) {
         return driverRepository.findById(id)
                 .map(driver -> {
@@ -181,7 +198,10 @@ public class DriverController {
                         driver.setStatus(DriverStatus.BUSY);
                     }
                     driverRepository.save(driver);
-                    return new DriverDto(driver);
+                    DriverDto driverDto;
+                    driverDto = new DriverDto(driver);
+                    driverDto.add(linkTo(methodOn(DriverController.class).makeAvailableFromBusy(driver.getId())).withRel("Finish"));
+                    return driverDto;
                 }).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
     @Operation(summary = "Atualizar o status de um driver de Busy para Available pelo seu id", method = "POST")
@@ -193,6 +213,7 @@ public class DriverController {
     })
     @PostMapping("/finish/{id}")
     @ResponseStatus(HttpStatus.OK)
+    @Transactional
     public DriverDto makeAvailableFromBusy(@PathVariable UUID id){
         return driverRepository.findById(id)
                 .map(driver -> {
@@ -200,7 +221,11 @@ public class DriverController {
                         driver.setStatus(DriverStatus.AVAILABLE);
                     }
                     driverRepository.save(driver);
-                    return new DriverDto(driver);
+                    DriverDto driverDto;
+                    driverDto = new DriverDto(driver);
+                    driverDto.add(linkTo(methodOn(DriverController.class).makeBusyFromAvailable(driver.getId())).withRel("Accept"));
+                    driverDto.add(linkTo(methodOn(DriverController.class).makeOfflineFromAvailable(driver.getId())).withRel("Stop"));
+                    return driverDto;
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado"));
     }
 }

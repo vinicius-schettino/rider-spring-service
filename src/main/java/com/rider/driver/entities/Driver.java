@@ -14,7 +14,7 @@ import java.util.UUID;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-public class Driver extends RepresentationModel<Driver> {
+public class Driver extends  RepresentationModel<Driver> {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
