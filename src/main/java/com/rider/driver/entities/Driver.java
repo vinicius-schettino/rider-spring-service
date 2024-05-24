@@ -25,11 +25,11 @@ public class Driver extends RepresentationModel<Driver> {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column
-    private double latitude;
+    @Column(nullable = false)
+    private double latitude = -21.762577517841127; // valor provisorio
 
-    @Column
-    private double longitude;
+    @Column(nullable = false)
+    private double longitude = -43.35308238981895; // valor provisorio
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

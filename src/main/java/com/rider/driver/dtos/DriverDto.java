@@ -17,8 +17,8 @@ public class DriverDto{
     @Id
     private String email;
     private String status;
-    private double latitude = -21.762577517841127; // valor provisorio
-    private double longitude = -43.35308238981895; // valor provisorio
+    private double latitude;
+    private double longitude;
     private String vehicleMake;
     private String vehicleModel;
     private String vehiclePlate;
