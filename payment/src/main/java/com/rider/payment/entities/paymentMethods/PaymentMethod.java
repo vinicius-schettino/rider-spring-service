@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "PAYMENT_METHOD")
 @NoArgsConstructor
 @AllArgsConstructor
 public class PaymentMethod {
@@ -15,7 +15,7 @@ public class PaymentMethod {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Enumerated()
+    @Enumerated(EnumType.ORDINAL)
     @Column(nullable = false)
     private PaymentType paymentType;
 
