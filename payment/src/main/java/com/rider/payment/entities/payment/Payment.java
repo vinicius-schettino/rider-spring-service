@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "PAYMENT")
 @Data
 @Setter
 @Getter
@@ -26,6 +26,9 @@ public class Payment {
     @ManyToOne
     @JoinColumn(name = "paymentMethod_id")
     private PaymentMethod paymentMethod;
+
+    @Column(nullable = false)
+    private String userName;
 
     @Column
     private Date paymentDate;
