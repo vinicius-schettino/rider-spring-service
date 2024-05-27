@@ -13,5 +13,7 @@ public interface CreditcardRepository extends JpaRepository<CreditCard, UUID> {
 
     List<CreditCard> findAllByHolder(String holder);
 
+    List<CreditCard> findAllByUserName(String userName);
+
 }
 
