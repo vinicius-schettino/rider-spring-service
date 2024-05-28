@@ -5,16 +5,17 @@ import jakarta.persistence.*;
 import java.util.UUID;
 
 @Entity
-@Table
-
-
-public class Creditcard {
+@Table(name = "CREDIT_CARD")
+public class CreditCard {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
+    private String userName;
 
     @Column(nullable = false)
     private String number;
@@ -36,6 +37,14 @@ public class Creditcard {
     public String getName() {return name;}
 
     public void setName(String name) {this.name = name;}
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
     public String getNumber() {return number;}
 

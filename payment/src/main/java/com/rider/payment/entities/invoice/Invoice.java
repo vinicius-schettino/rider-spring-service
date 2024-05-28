@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table
+@Table(name = "INVOICE")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

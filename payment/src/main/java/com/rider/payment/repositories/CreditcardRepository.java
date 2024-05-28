@@ -1,17 +1,19 @@
 package com.rider.payment.repositories;
 
-import com.rider.payment.entities.creditcard.Creditcard;
+import com.rider.payment.entities.creditcard.CreditCard;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 import java.util.UUID;
 
 
-public interface CreditcardRepository extends JpaRepository<Creditcard, UUID> {
+public interface CreditcardRepository extends JpaRepository<CreditCard, UUID> {
 
-    List<Creditcard> findAllByName(String Name);
+    List<CreditCard> findAllByName(String Name);
 
-    List<Creditcard> findAllByHolder(String holder);
+    List<CreditCard> findAllByHolder(String holder);
+
+    List<CreditCard> findAllByUserName(String userName);
 
 }
 
