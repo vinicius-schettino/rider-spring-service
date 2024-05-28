@@ -20,7 +20,7 @@ public class DriverDto extends RepresentationModel<DriverDto> {
     private String status;
     private double latitude;
     private double longitude;
-    private String vehicleMake;
+    private String vehicleBrand;
     private String vehicleModel;
     private String vehiclePlate;
 
@@ -30,7 +30,7 @@ public class DriverDto extends RepresentationModel<DriverDto> {
         status = driver.getStatus().toString();
         latitude = driver.getLatitude();
         longitude = driver.getLongitude();
-        vehicleMake = driver.getVehicle().getMake();
+        vehicleBrand = driver.getVehicle().getBrand();
         vehicleModel = driver.getVehicle().getModel();
         vehiclePlate = driver.getVehicle().getPlate();
     }
