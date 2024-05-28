@@ -36,6 +36,6 @@ public class DriverValidator implements Validator {
     }
 
     private boolean checkEmailValid(String input) {
-        return (input.contains(","));
+        return (input.contains(",") || !input.contains("@"));
     }
 }
