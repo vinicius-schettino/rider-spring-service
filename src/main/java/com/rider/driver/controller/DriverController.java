@@ -4,6 +4,7 @@ import com.rider.driver.entities.Driver;
 import com.rider.driver.entities.DriverStatus;
 import com.rider.driver.repositories.DriverRepository;
 import com.rider.driver.validators.DriverValidator;
+import com.rider.driver.validators.VehicleValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -31,6 +32,8 @@ public class DriverController {
     private DriverRepository driverRepository;
     @Autowired
     private DriverValidator driverValidator;
+//    @Autowired
+//    private VehicleValidator vehicleValidator;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
