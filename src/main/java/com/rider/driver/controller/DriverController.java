@@ -4,7 +4,6 @@ import com.rider.driver.entities.Driver;
 import com.rider.driver.entities.DriverStatus;
 import com.rider.driver.repositories.DriverRepository;
 import com.rider.driver.validators.DriverValidator;
-import com.rider.driver.validators.VehicleValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -30,10 +29,9 @@ public class DriverController {
 
     @Autowired
     private DriverRepository driverRepository;
+
     @Autowired
     private DriverValidator driverValidator;
-//    @Autowired
-//    private VehicleValidator vehicleValidator;
 
     @InitBinder
     protected void initBinder(WebDataBinder binder) {
@@ -49,10 +47,12 @@ public class DriverController {
     })
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
+
     public DriverDto salvarDriver(@Valid @RequestBody Driver driver) {
         driverRepository.save(driver);
         return new DriverDto(driver);
     }
+
     @Operation(summary = "Lista todos os drivers existentes no banco de dados", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Drivers listados com sucesso"),
@@ -62,6 +62,7 @@ public class DriverController {
     })
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
+
     public List<DriverDto> listarDrivers() {
         List<Driver> drivers = driverRepository.findAll();
         List<DriverDto> listDriversDto = new ArrayList<>();
@@ -73,6 +74,7 @@ public class DriverController {
         }
         return listDriversDto;
     }
+
     @Operation(summary = "Busca um driver pelo seu id", method = "GET")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Driver encontrado"),
@@ -82,6 +84,7 @@ public class DriverController {
     })
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
+
     public DriverDto buscarDriverPorId(@PathVariable("id") UUID id) {
         Driver driver = driverRepository.findById(id)
                 .orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND));
@@ -100,6 +103,7 @@ public class DriverController {
 
         return driverDto;
     }
+
     @Operation(summary = "Deletar um driver usando seu id", method = "DELETE")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Driver apagado com sucesso"),
@@ -117,6 +121,7 @@ public class DriverController {
                     return Void.TYPE;
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
+
     @Operation(summary = "Atulizar informações do driver pelo seu id", method = "PUT")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Driver atualizado com sucesso"),
@@ -126,8 +131,10 @@ public class DriverController {
     })
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
+
     @Transactional
     public DriverDto atualizarDriver(@PathVariable("id") UUID id, @Valid @RequestBody Driver driverAtualizado) {
+
         return driverRepository.findById(id)
                 .map(driver -> {
                     if (driverAtualizado.getName() != null) {
@@ -137,6 +144,7 @@ public class DriverController {
                     return new DriverDto(driver);
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
+
     @Operation(summary = "Atualizar o status de um driver de Offline para Available pelo seu id", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Status do driver atualizado com sucesso"),
@@ -146,8 +154,10 @@ public class DriverController {
     })
     @PostMapping("/start/{id}")
     @ResponseStatus(HttpStatus.OK)
+
     @Transactional
     public DriverDto makeAvailableFromOffline(@PathVariable("id") UUID id) {
+
         return driverRepository.findById(id)
                 .map(driver -> {
                     if (driver.getStatus() == DriverStatus.OFFLINE) {
@@ -161,6 +171,7 @@ public class DriverController {
                     return driverDto;
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
+
     @Operation(summary = "Atualizar o status de um driver de Available para Offline pelo seu id", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Status do driver atualizado com sucesso"),
@@ -172,6 +183,7 @@ public class DriverController {
     @ResponseStatus(HttpStatus.OK)
     @Transactional
     public DriverDto makeOfflineFromAvailable(@PathVariable UUID id) {
+
         return driverRepository.findById(id)
                 .map(driver -> {
                     if (driver.getStatus() == DriverStatus.AVAILABLE) {
@@ -184,6 +196,7 @@ public class DriverController {
                     return driverDto;
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado."));
     }
+
     @Operation(summary = "Atualizar o status de um driver de Available para Busy pelo seu id", method = "POST")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Status do driver atualizado com sucesso"),
@@ -195,6 +208,7 @@ public class DriverController {
     @ResponseStatus(HttpStatus.OK)
     @Transactional
     public DriverDto makeBusyFromAvailable(@PathVariable UUID id) {
+
         return driverRepository.findById(id)
                 .map(driver -> {
                     if (driver.getStatus() == DriverStatus.AVAILABLE){
@@ -218,6 +232,7 @@ public class DriverController {
     @ResponseStatus(HttpStatus.OK)
     @Transactional
     public DriverDto makeAvailableFromBusy(@PathVariable UUID id){
+
         return driverRepository.findById(id)
                 .map(driver -> {
                     if (driver.getStatus() == DriverStatus.BUSY){
@@ -229,6 +244,7 @@ public class DriverController {
                     driverDto.add(linkTo(methodOn(DriverController.class).makeBusyFromAvailable(driver.getId())).withRel("Accept"));
                     driverDto.add(linkTo(methodOn(DriverController.class).makeOfflineFromAvailable(driver.getId())).withRel("Stop"));
                     return driverDto;
+
                 }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Motorista não encontrado"));
     }
 }

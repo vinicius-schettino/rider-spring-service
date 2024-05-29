@@ -19,18 +19,21 @@ public class Vehicle {
     private UUID id;
 
     @Column(nullable = false)
+
     private String brand;
 
     @Column(nullable = false)
     private String model;
 
     @Column(nullable = false)
+
     private int model_year;
 
     @Column(nullable = false, unique = true)
     private String plate;
 
     @Column(nullable = false)
+
     private String type;
 
     @Column(nullable = false)

@@ -15,6 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Driver extends  RepresentationModel<Driver> {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
