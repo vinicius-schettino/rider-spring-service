@@ -32,7 +32,7 @@ public class VehicleValidator implements Validator {
     }
 
     private boolean checkPlateValid(String input) {
-        return (input.matches("[A-Z]{3}[0-9]{4}"));
+        return (!input.matches("[A-Z]{3}[0-9]{4}"));
     }
 
 }
