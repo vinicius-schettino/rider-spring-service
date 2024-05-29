@@ -1,12 +1,17 @@
 package com.rider.driver.validators;
 
 import com.rider.driver.entities.Driver;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 @Component("beforeCreateDriverValidator")
 public class DriverValidator implements Validator {
+
+    @Autowired
+    private VehicleValidator vehicleValidator;
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -28,6 +33,12 @@ public class DriverValidator implements Validator {
 
         if (checkEmailValid(driver.getEmail())) {
             errors.rejectValue("email", "email.invalid", "Email inválido!");
+        }
+
+        if (driver.getVehicle() != null) {
+            errors.pushNestedPath("vehicle");
+            ValidationUtils.invokeValidator(vehicleValidator, driver.getVehicle(), errors);
+            errors.popNestedPath();
         }
     }
 
