@@ -14,8 +14,6 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @Column(nullable = false)
-    private String name;
-    @Column(nullable = false)
     private String neighborhood;
     @Column(nullable = false)
     private String street;
@@ -32,9 +30,6 @@ public class Address {
         return this.id;
     }
 
-    public String getName() {
-        return this.name;
-    }
 
     public String getNeighborhood() {
         return this.neighborhood;
@@ -55,10 +50,6 @@ public class Address {
 
     public void setId(UUID id) {
         this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public void setNeighborhood(String neighborhood) {

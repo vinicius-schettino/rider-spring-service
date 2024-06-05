@@ -12,7 +12,7 @@ public class Settings {
     @Column(nullable = false)
     private UUID id;
     @Column(nullable = false)
-    private Language language;
+    private Languages languages;
     @Column(nullable = false)
     private AppAppearance appappearance;
     @Column(nullable = false)
@@ -27,8 +27,8 @@ public class Settings {
         return id;
     }
 
-    public Language getLanguage() {
-        return language;
+    public Languages getLanguages() {
+        return languages;
     }
 
     public AppAppearance getAppAppearance() {
@@ -47,8 +47,8 @@ public class Settings {
         this.id = id;
     }
 
-    public void setLanguage(Language language) {
-        this.language = language;
+    public void setLanguage(Languages languages) {
+        this.languages = languages;
     }
 
     public void setAppAppearance(AppAppearance appappearance) {
@@ -63,7 +63,7 @@ public class Settings {
         this.ads = ads;
     }
 
-    public enum Language {
+    public enum Languages {
         Portuguese, English, Chinese, Spanish
     }
 
