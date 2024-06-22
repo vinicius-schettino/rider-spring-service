@@ -38,7 +38,7 @@ public class Ride {
     private Float destinationLocation_Y;
 
     @OneToMany(mappedBy = "ride")
-    private List<Review> review;
+    private List<Review> reviews;
 
     public UUID getId(){
         return this.id;
@@ -76,8 +76,10 @@ public class Ride {
         return this.destinationLocation_Y;
     }
 
-    public List<Review> getReview(){
-        return this.review;
+    public List<Review> getReviews(){ return this.reviews; }
+
+    public void setId(){
+        this.id = id;
     }
 
     public void setDriver(){
@@ -112,7 +114,7 @@ public class Ride {
         this.destinationLocation_Y = destinationLocation_Y;
     }
 
-    public void setReview(){
-        this.review = review;
+    public void setReviews(List<Review> reviews) {
+        this.reviews = reviews;
     }
 }

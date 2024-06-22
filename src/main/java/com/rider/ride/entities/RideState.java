@@ -5,5 +5,6 @@ public enum RideState {
     DRIVER_ACCEPTED,
     FINISHED,
     ONGOING_RIDE,
+    WAITING_PAYMENT,
     WAITING_DRIVER
 }

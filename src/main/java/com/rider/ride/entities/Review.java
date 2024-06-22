@@ -11,30 +11,32 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne
-    @JoinColumn(nullable = false)
-    private Ride ride;
+    @Column(name = "ratting", nullable = false)
+    private Integer ratting;
 
     @Column(name = "comment", nullable = false)
     private String comment;
+
+    @ManyToOne
+    @JoinColumn(nullable = false)
+    private Ride ride;
 
     public UUID getId(){
         return this.id;
     }
 
-    public Ride getRide(){
-        return this.ride;
-    }
+    public Integer getRatting(){ return this.ratting; }
 
-    public String getComment(){
-        return this.comment;
-    }
+    public String getComment(){ return this.comment; }
 
-    public void setRide(){
-        this.ride = ride;
-    }
+    public Ride getRide(){ return this.ride; }
+
+    public void setRatting(){ this.ratting = ratting; }
 
     public void setComment(){
         this.comment = comment;
     }
+
+    public void setRide(Ride ride){ this.ride = ride; }
+
 }
