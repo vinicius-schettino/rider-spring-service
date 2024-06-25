@@ -119,6 +119,4 @@ public class RideController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
 }
