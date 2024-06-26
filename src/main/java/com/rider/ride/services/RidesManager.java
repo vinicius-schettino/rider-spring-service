@@ -20,6 +20,7 @@ public class RidesManager {
 
     public Ride createRide(Ride ride) {
         ride.setReviews(new ArrayList<Review>());
+        ride.setId(UUID.randomUUID());
         ride.setState(RideState.WAITING_DRIVER);
         ride.setPrice(RidePrice.calculatePrice());
         return rideRepository.save(ride);
