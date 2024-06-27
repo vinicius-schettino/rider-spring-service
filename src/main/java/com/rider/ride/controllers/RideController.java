@@ -9,9 +9,9 @@ import com.rider.ride.repositories.ReviewRepository;
 import com.rider.ride.services.RidesManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,6 +27,7 @@ public class RideController {
     private ReviewRepository reviewRepository;
 
     @GetMapping("/rides")
+    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<Ride>> getAllRides() {
         List<Ride> rides = rideService.getAllRides();
         if (!rides.isEmpty()) {
@@ -36,7 +37,7 @@ public class RideController {
         }
     }
 
-    @PostMapping("/new")
+    @PostMapping("/rides")
     public ResponseEntity<Ride> createRide(@RequestBody RideDTO rideDTO) {
         Ride ride = new Ride();
         ride.setBoardingLocation_X(rideDTO.getBoardingLocation_X());
@@ -49,7 +50,7 @@ public class RideController {
         return ResponseEntity.ok(newRide);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/rides/{id}")
     public ResponseEntity<Ride> getRide(@PathVariable UUID id) {
         Optional<Ride> ride = rideService.getRide(id);
         if (ride.isPresent()) {
@@ -69,7 +70,7 @@ public class RideController {
         }
     }
 
-    @PatchMapping("/{id}/status/accept")
+    @PostMapping("/{id}/status/accept")
     public ResponseEntity<Ride> acceptRide(@PathVariable UUID id) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
@@ -82,7 +83,7 @@ public class RideController {
         }
     }
 
-    @PatchMapping("/{id}/status/pickup")
+    @PostMapping("/{id}/status/pickup")
     public ResponseEntity<Ride> startRide(@PathVariable UUID id) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
@@ -95,7 +96,7 @@ public class RideController {
         }
     }
 
-    @PatchMapping("/{id}/status/pay")
+    @PostMapping("/{id}/status/pay")
     public ResponseEntity<Ride> requestPayment(@PathVariable UUID id) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
@@ -108,7 +109,7 @@ public class RideController {
         }
     }
 
-    @PatchMapping("/{id}/status/finish")
+    @PostMapping("/{id}/status/finish")
     public ResponseEntity<Ride> finishRide(@PathVariable UUID id) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
@@ -121,7 +122,7 @@ public class RideController {
         }
     }
 
-    @PatchMapping("/{id}/status/cancel")
+    @PostMapping("/{id}/status/cancel")
     public ResponseEntity<Ride> cancelRide(@PathVariable UUID id) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
@@ -134,7 +135,7 @@ public class RideController {
         }
     }
 
-    @PostMapping("/{id}/reviews/add")
+    @PostMapping("/{id}/reviews")
     public ResponseEntity<Review> addReview(@PathVariable UUID id, @RequestBody ReviewDTO reviewDTO) {
         Optional<Ride> optionalRide = rideService.getRide(id);
         if (optionalRide.isPresent()) {
