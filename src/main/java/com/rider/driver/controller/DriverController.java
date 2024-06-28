@@ -23,8 +23,8 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping(value = "/driver", produces = {"application/json"})
-@Tag(name = "driver")
+@RequestMapping(value = "/drivers", produces = {"application/json"})
+@Tag(name = "drivers")
 public class DriverController {
 
     @Autowired
