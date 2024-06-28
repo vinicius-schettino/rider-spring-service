@@ -14,12 +14,12 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain resourceServerFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers(new AntPathRequestMatcher("/drivers", HttpMethod.GET.name()))
-                .permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/drivers/start", HttpMethod.POST.name()))
-                .permitAll()
-                .anyRequest().permitAll()
+        http
+            .csrf(csrf -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/**")))
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+//                .requestMatchers(new AntPathRequestMatcher("/drivers/start/**")).permitAll()
+//                .anyRequest().authenticated()
         );
         return http.build();
     }
