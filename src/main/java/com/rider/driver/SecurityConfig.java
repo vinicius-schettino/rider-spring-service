@@ -17,9 +17,14 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.ignoringRequestMatchers(new AntPathRequestMatcher("/**")))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
-//                .requestMatchers(new AntPathRequestMatcher("/drivers/start/**")).permitAll()
-//                .anyRequest().authenticated()
+                .requestMatchers(new AntPathRequestMatcher("/drivers", HttpMethod.GET.name())).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/drivers/**", HttpMethod.GET.name())).permitAll()
+                .requestMatchers(new AntPathRequestMatcher("/drivers/**", HttpMethod.POST.name())).hasRole("driver")
+                .requestMatchers(new AntPathRequestMatcher("/drivers/start/**")).hasRole("driver")
+                .requestMatchers(new AntPathRequestMatcher("/drivers/stop/**")).hasRole("driver")
+                .requestMatchers(new AntPathRequestMatcher("/drivers/accept/**")).hasRole("driver")
+                .requestMatchers(new AntPathRequestMatcher("/drivers/busy/**")).hasRole("driver")
+                .anyRequest().authenticated()
         );
         return http.build();
     }
